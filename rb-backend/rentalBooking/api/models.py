@@ -78,7 +78,7 @@ class User(AbstractUser):
         verbose_name=_('groups'),
         blank=True,
         help_text=_('The groups this user belongs to.'),
-        related_name="custom_user_set",  # Changed
+        related_name="custom_user_set",
         related_query_name="custom_user",
     )
     user_permissions = models.ManyToManyField(
@@ -86,7 +86,7 @@ class User(AbstractUser):
         verbose_name=_('user permissions'),
         blank=True,
         help_text=_('Specific permissions for this user.'),
-        related_name="custom_user_set",  # Changed
+        related_name="custom_user_set",
         related_query_name="custom_user",
     )
 
