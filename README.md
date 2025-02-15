@@ -1,2 +1,2 @@
-# rental-booking
+# Rental Booking
 Rental Booking Platform
