@@ -22,8 +22,6 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgres://drfuser:strongpassword@db:5432/drfdb
-      - DJANGO_SECRET_KEY=your-secret-key-here
       - DEBUG=1 
       - PYTHONBREAKPOINT=ipdb.set_trace
     volumes:
