@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Permission
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 class RoleChoices(models.TextChoices):
     SUPERUSER = 'superuser', _('Superuser')
@@ -90,21 +92,24 @@ class User(AbstractUser):
         related_query_name="custom_user",
     )
 
+
+
 class Rental(models.Model):
-    title = models.CharField(_('title'), max_length=100)
-    description = models.TextField(_('description'))
+    title = models.CharField(_('title'), max_length=100, db_index=True)
     price = models.DecimalField(
         _('price per night'),
         max_digits=10,
-        decimal_places=2
+        decimal_places=2,
+        db_index=True
     )
-    location = models.CharField(_('location'), max_length=255)
+    location = models.CharField(_('location'), max_length=255, db_index=True)
     host = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='rentals',
         limit_choices_to={'role': RoleChoices.HOST}
     )
+    description = models.TextField(_('description'), blank=True, db_index=True)
     is_available = models.BooleanField(_('available'), default=True)
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
@@ -129,7 +134,7 @@ class Booking(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='bookings',
-        limit_choices_to={'role': RoleChoices.RENTER}
+        limit_choices_to={'role': 'renter'}
     )
     status = models.CharField(
         _('status'),
@@ -153,3 +158,21 @@ class Booking(models.Model):
 
     def __str__(self):
         return f'{self.rental.title} ({self.start_date} - {self.end_date})'
+
+    def clean(self):
+        """
+        Prevent double bookings by checking for date overlaps.
+        """
+        overlapping_bookings = Booking.objects.filter(
+            rental=self.rental,
+            status__in=[StatusChoices.PENDING, StatusChoices.CONFIRMED]
+        ).filter(
+            Q(start_date__lt=self.end_date, end_date__gt=self.start_date)
+        )
+
+        if overlapping_bookings.exists():
+            raise ValidationError(_('This rental is already booked for the selected dates.'))
+
+    def save(self, *args, **kwargs):
+        self.clean()  # Validate before saving
+        super().save(*args, **kwargs)
