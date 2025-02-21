@@ -1,42 +1,39 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+    --primary-color: #D91F1C;
+    --secondary-color: #F5F5DC;
+    --primary-dark-color: #211E12;
+    --primary-light-color: #F5F5F5;
+    --primary-text-color: #D91F1C;
+    --secondary-text-color: #757575;
+    --divider-color: #BDBDBD;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --border-radius: 4px;
+    --transition: 0.3s;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+    font-family: "Atkinson Hyperlegible Next", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.primary-bg {
+    background-color: var(--primary-color);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.secondary-bg {
+    background-color: var(--secondary-color);
 }
 
-.card {
-  padding: 2em;
+.primary-bg-dark {
+    background-color: var(--primary-dark-color);
 }
 
-.read-the-docs {
-  color: #888;
+.primary-bg-light {
+    background-color: var(--primary-light-color);
+}
+
+.primary-text-color {
+    color: var(--primary-text-color);
 }
