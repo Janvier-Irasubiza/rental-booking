@@ -4,6 +4,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const DashboardHeader = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -28,7 +29,7 @@ const DashboardHeader = () => {
 
   return (
     <div className="flex justify-between items-center relative">
-      <h1 className="text-3xl font-bold">Welcome, [User Name]</h1>
+      <h1 className="text-3xl font-bold text-gray-800">Welcome, [User Name]</h1>
 
       {/* User Profile Icon with Dropdown Toggle */}
       <div className="relative inline-block text-left" ref={dropdownRef}>
@@ -48,30 +49,29 @@ const DashboardHeader = () => {
               aria-orientation="vertical"
               aria-labelledby="options-menu"
             >
-              <a
-                href="#"
+              <Link
+                to="profile"
                 className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-md font-medium"
                 role="menuitem"
               >
                 <UserCircleIcon className="h-5 w-5" />
                 <p>Profile</p>
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="settings"
                 className="flex items-center space-x-2 font-medium px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 role="menuitem"
               >
                 <Cog6ToothIcon className="h-5 w-5" />
                 <p>Settings</p>
-              </a>
-              <a
-                href="#"
-                className="flex items-center space-x-2 font-medium px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-md"
+              </Link>
+              <button
+                className="flex w-full items-center space-x-2 font-medium px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-md"
                 role="menuitem"
               >
                 <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
                 <p>Logout</p>
-              </a>
+              </button>
             </div>
           </div>
         )}

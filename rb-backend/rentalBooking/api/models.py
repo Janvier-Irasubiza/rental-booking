@@ -92,10 +92,25 @@ class User(AbstractUser):
         related_query_name="custom_user",
     )
 
+class Category(models.Model):
+    name = models.CharField(_('name'), max_length=100, db_index=True)
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
+    class Meta:
+        verbose_name = _('category')
+        verbose_name_plural = _('categories')
+
+    def __str__(self):
+        return self.name
 
 class Rental(models.Model):
     title = models.CharField(_('title'), max_length=100, db_index=True)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name='rentals'
+    )
     price = models.DecimalField(
         _('price per night'),
         max_digits=10,

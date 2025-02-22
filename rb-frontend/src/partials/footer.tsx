@@ -1,6 +1,14 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebookF,
+  faTwitter,
+  faInstagram,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-10">
+    <footer className="bg-gradient-to-b from-indigo-600 to-purple-700 text-white py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -37,19 +45,23 @@ function Footer() {
             </p>
             <p>
               Phone:{" "}
-              <a href="tel:+1234567890" className="hover:text-gray-400">
-                +123 456 7890
+              <a href="tel:+250781336634" className="hover:text-gray-400">
+                +250 781 336 634
               </a>
             </p>
-            <div className="flex space-x-4 mt-4">
+            <div className="flex space-x-4 mt-6">
               <a href="#" className="hover:text-blue-500">
                 <i className="fab fa-facebook-f"></i>
+                <FontAwesomeIcon icon={faFacebookF} />
               </a>
               <a href="#" className="hover:text-blue-400">
-                <i className="fab fa-twitter"></i>
+                <FontAwesomeIcon icon={faTwitter} />
               </a>
               <a href="#" className="hover:text-pink-500">
-                <i className="fab fa-instagram"></i>
+                <FontAwesomeIcon icon={faInstagram} />
+              </a>
+              <a href="" className="hover:text-">
+                <FontAwesomeIcon icon={faYoutube} />
               </a>
             </div>
           </div>

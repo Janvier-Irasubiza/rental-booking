@@ -1,23 +1,25 @@
 import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/outline";
-import AuthLayout from "../layouts/auth";
-import CountryCode from "../components/country-code";
+import AuthLayout from "../../layouts/auth";
+import CountryCode from "../../components/country-code";
+import { Link } from "react-router-dom";
 
-function Auth() {
-  // const [isUser, setIsUser] = useState(false);
-
+function Register() {
   return (
     <AuthLayout>
-      <div className="py-20">
+      <div className="">
         <div className="px-28 flex flex-col justify-center">
-          <div className="w-96 mx-auto space-y-14">
+          <div className="w-2/5 mx-auto space-y-14 border p-8 rounded-lg">
+            {/* Heading */}
             <div className="text-center">
-              <h1 className="text-3xl font-bold">Login</h1>
+              <h1 className="text-3xl font-bold">Sign Up</h1>
               <p className="text-gray-500 mt-2 text-sm">
-                Join a future gateway for rentals
+                Create an account to join our rental platform.
               </p>
             </div>
-            <form className="">
-              {/* Email or Phone */}
+
+            {/* Form */}
+            <form className="space-y-4">
+              {/* Email Field */}
               <div className="mb-4">
                 <label
                   htmlFor="email"
@@ -31,75 +33,69 @@ function Auth() {
                   id="email"
                   autoComplete="email"
                   required
-                  className="input mt-1 p-2 block w-full"
+                  className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="username@mail.com"
                 />
               </div>
 
-              {/* Phone number */}
+              {/* Phone Number */}
               <div className="mb-4">
                 <label
                   htmlFor="phone"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Phone number
+                  Phone Number
                 </label>
                 <div className="flex items-center gap-2">
-                  {/* Country code */}
                   <CountryCode />
                   <input
                     type="tel"
                     name="phone"
                     id="phone"
-                    autoComplete="tel"
                     required
-                    className="input mt-1 p-2 block w-full"
-                    placeholder="124 674 845"
+                    className="mt-1 p-2 block w-full border rounded-lg"
+                    placeholder="123 456 789"
                   />
                 </div>
               </div>
 
-              <div>
-                {/* FirstName */}
-                <div className="mb-4">
-                  <label
-                    htmlFor="firstName"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    id="firstName"
-                    autoComplete="given-name"
-                    required
-                    className="input mt-1 p-2 block w-full"
-                    placeholder="First Name"
-                  />
-                </div>
-
-                {/* LastName */}
-                <div className="mb-4">
-                  <label
-                    htmlFor="lastName"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    autoComplete="family-name"
-                    required
-                    className="input mt-1 p-2 block w-full"
-                    placeholder="Last Name"
-                  />
-                </div>
+              {/* First Name */}
+              <div className="mb-4">
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  required
+                  className="mt-1 p-2 block w-full border rounded-lg"
+                  placeholder="John"
+                />
               </div>
 
-              {/* Password */}
+              {/* Last Name */}
+              <div className="mb-4">
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  required
+                  className="mt-1 p-2 block w-full border rounded-lg"
+                  placeholder="Doe"
+                />
+              </div>
+
+              {/* Password Field */}
               <div className="mb-4">
                 <label
                   htmlFor="password"
@@ -111,9 +107,8 @@ function Auth() {
                   type="password"
                   name="password"
                   id="password"
-                  autoComplete="current-password"
                   required
-                  className="input mt-1 p-2 block w-full"
+                  className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="Password"
                 />
               </div>
@@ -130,45 +125,46 @@ function Auth() {
                   type="password"
                   name="confirmPassword"
                   id="confirmPassword"
-                  autoComplete="current-password"
                   required
-                  className="input mt-1 p-2 block w-full"
+                  className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="Confirm Password"
                 />
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
-                className="buttnon text-white p-2 rounded-md 
-                          w-full mt-2 flex items-center justify-center 
-                          gap-2 bg-blue-500 hover:bg-blue-600 transition-all 
-                          duration-200 focus:outline-none focus:ring-2 
-                          focus:ring-offset-2 focus:ring-blue-500"
+                className="button text-white p-2 rounded-md w-full mt-2 flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 transition"
               >
-                Continue <ArrowRightEndOnRectangleIcon className="h-5 w-5" />
+                Sign Up
+                <ArrowRightEndOnRectangleIcon className="h-5 w-5" />
               </button>
 
-              <div className="mt-8">
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="border-b w-1/4 lg:w-1/5"></span>
+              {/* Link to Login */}
+              <p className="text-sm text-gray-600 text-center mt-4">
+                Already have an account?
+                <Link
+                  to="/auth/login"
+                  className="ml-1 text-blue-600 hover:underline"
+                >
+                  Login
+                </Link>
+              </p>
 
-                  <span className="text-center text-sm text-gray-500">
+              <div className="mt-8">
+                <div className="flex items-center justify-between">
+                  <span className="border-b w-1/4"></span>
+                  <span className="text-sm text-gray-500">
                     or continue with
                   </span>
-
-                  <span className="border-b w-1/4 lg:w-1/5"></span>
+                  <span className="border-b w-1/4"></span>
                 </div>
               </div>
 
-              {/* Continue with gmail */}
+              {/* Google Login */}
               <button
                 type="button"
-                className="w-full mt-8 flex items-center justify-center gap-3 
-                         bg-white text-gray-700 font-medium 
-                         brd rounded-md 
-                         py-2 px-4
-                         transition-all duration-200
-                         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 google-btn"
+                className="w-full mt-4 flex items-center justify-center gap-3 bg-white text-gray-700 font-medium border rounded-md py-2 px-4 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path
@@ -198,4 +194,4 @@ function Auth() {
   );
 }
 
-export default Auth;
+export default Register;

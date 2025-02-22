@@ -1,17 +1,54 @@
-import { BrowserRouter as AppRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as AppRouter,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import Home from "../pages/Home";
-import Auth from "../pages/auth";
 import Dashboard from "../portal/dashboard";
+import Discover from "../partials/discover";
+import MyRentals from "../portal/my-rentals";
+import Bookings from "../portal/bookings";
+import Profile from "../portal/profile";
+import Settings from "../portal/settings";
+import Sidebar from "../partials/sidebar";
+import AuthRoutes from "./auth";
+import RentalInfo from "../pages/rental-info";
 
 const Router = () => {
   return (
     <AppRouter>
       <Routes>
+        {/* Main Pages */}
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/itm" element={<RentalInfo />} />
+
+        {/* Auth routes */}
+        <Route path="/auth/*" element={<AuthRoutes />} />
+
+        {/* Dashboard routes */}
+        <Route path="/@me" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="rentals" element={<MyRentals />} />
+          <Route path="bookings" element={<Bookings />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
       </Routes>
     </AppRouter>
+  );
+};
+
+// Dashboard Layout
+const DashboardLayout = () => {
+  return (
+    <div className="flex">
+      <Sidebar />
+      <main className="flex-1 bg-gray-50">
+        <Outlet />
+      </main>
+    </div>
   );
 };
 

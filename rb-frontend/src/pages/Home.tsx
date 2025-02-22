@@ -1,13 +1,13 @@
 import "../styles/App.css";
 import App from "../layouts/app";
-import Categories from "../partials/categories";
+import Rentals from "../partials/rentals";
 
 function Home() {
   return (
     <App>
       <div className="px-28">
         <div className="">
-          <Categories />
+          <Rentals />
         </div>
       </div>
     </App>

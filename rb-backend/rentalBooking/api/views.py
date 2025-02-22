@@ -19,7 +19,7 @@ class RentalViewSet(ModelViewSet):
     serializer_class = RentalSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['location', 'price', 'is_available']
+    filterset_fields = ['location', 'price', 'is_available', 'category']
     search_fields = ['title', 'description']
     ordering_fields = ['price', 'created_at']
 
@@ -41,8 +41,8 @@ class BookingViewSet(ModelViewSet):
     serializer_class = BookingSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['rental', 'guest', 'status', 'start_date', 'end_date']
-    search_fields = ['rental__title', 'guest__first_name', 'guest__last_name']
+    filterset_fields = ['rental', 'guest', 'status', 'start_date', 'end_date', 'rental__category']
+    search_fields = ['rental__title', 'guest__first_name', 'guest__last_name', 'renal__category__name']
     ordering_fields = ['start_date', 'end_date', 'status']
 
     def get_queryset(self):
