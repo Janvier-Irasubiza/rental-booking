@@ -1,0 +1,101 @@
+:root {
+    --primary-color: #EC4899;
+    --primary-color-hover: #d03180;
+    --secondary-color: #F5F5DC;
+    --primary-dark-color: #211E12;
+    --primary-light-color: #F5F5F5;
+    --pry-txt: #EC4899;
+    --secondary-text-color: #3d3d3d;
+    --divider-color: #d7d7d7;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --border-radius: 4px;
+    --transition: 0.2s;
+}
+
+/* Minimize browser scroll bar width */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--divider-color);
+    border-radius: var(--border-radius);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--secondary-color);
+}
+
+body {
+    font-family: "Atkinson Hyperlegible Next", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.pry-bg {
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.secondary-bg {
+    background-color: var(--secondary-color);
+}
+
+.primary-bg-dark {
+    background-color: var(--primary-dark-color);
+}
+
+.primary-bg-light {
+    background-color: var(--primary-light-color);
+}
+
+.pry-txt {
+    color: var(--pry-txt);
+}
+
+.buttnon {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--box-shadow);
+}
+
+.input {
+    border: 2px solid var(--divider-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+    outline: none;
+}
+
+.input:focus {
+    border: 2px solid var(--primary-color);
+}
+
+.buttnon:hover {
+    background-color: var(--primary-color-hover);
+}
+
+.brd {
+    border: 2px solid var(--divider-color);
+}
+
+.google-btn {
+    color: var(--secondary-text-color);
+    border: 2px solid var(--divider-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+.google-btn:hover {
+    background-color: var(---divider-color);
+}
