@@ -1,9 +1,54 @@
 import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/outline";
 import AuthLayout from "../../layouts/auth";
 import CountryCode from "../../components/country-code";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 function Register() {
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/signup/", {
+        email: formData.email,
+        phone: formData.phone,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        password1: formData.password,
+        password2: formData.confirmPassword,
+      });
+
+      if (response.status === 201) {
+        // redirect to dashboard
+        localStorage.setItem("access_token", response.data.token);
+        navigate("/@me");
+      }
+    } catch (error) {
+      setError("Something went wrong. Please try again.");
+      console.error("Signup failed", error);
+    }
+  };
+
   return (
     <AuthLayout>
       <div className="">
@@ -18,7 +63,7 @@ function Register() {
             </div>
 
             {/* Form */}
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               {/* Email Field */}
               <div className="mb-4">
                 <label
@@ -35,6 +80,7 @@ function Register() {
                   required
                   className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="username@mail.com"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -55,6 +101,7 @@ function Register() {
                     required
                     className="mt-1 p-2 block w-full border rounded-lg"
                     placeholder="123 456 789"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -74,6 +121,7 @@ function Register() {
                   required
                   className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="John"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -92,6 +140,7 @@ function Register() {
                   required
                   className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="Doe"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -110,6 +159,7 @@ function Register() {
                   required
                   className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="Password"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -128,13 +178,14 @@ function Register() {
                   required
                   className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="Confirm Password"
+                  onChange={handleChange}
                 />
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                className="button text-white p-2 rounded-md w-full mt-2 flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 transition"
+                className="button text-white p-2 rounded-md w-full mt-2 flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-700 transition"
               >
                 Sign Up
                 <ArrowRightEndOnRectangleIcon className="h-5 w-5" />
@@ -186,6 +237,10 @@ function Register() {
                 </svg>
                 <span>Google</span>
               </button>
+
+              {error && (
+                <div className="text-red-500 text-sm text-center">{error}</div>
+              )}
             </form>
           </div>
         </div>

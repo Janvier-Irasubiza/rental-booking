@@ -5,10 +5,22 @@ from rest_framework import status
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .models import Rental, Booking, StatusChoices
+from .models import Rental, Booking, StatusChoices, User
 from django.db.models import Q
 from .serializers import RentalSerializer, BookingSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth import get_user_model
+from .tasks import send_password_reset_email 
+from rest_framework.decorators import api_view, permission_classes
+from allauth.socialaccount.models import SocialAccount
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework import generics
+
+User = get_user_model()
 
 class RentalViewSet(ModelViewSet):
     """
@@ -90,3 +102,59 @@ class BookingViewSet(ModelViewSet):
             booking.status = StatusChoices.CANCELLED
             booking.save()
             return Response({"detail": "Booking has been cancelled."}, status=status.HTTP_200_OK)
+        
+class PasswordResetRequestView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        try:
+            user = User.objects.get(email=email)
+            token = PasswordResetTokenGenerator().make_token(user)
+            send_password_reset_email.delay(user.email, token)  # Async with Celery
+            return Response({"message": "Password reset email sent."}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_info(request):
+    return Response({
+        "email": request.user.email,
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name
+    })
+
+@api_view(['GET'])
+def google_callback(request):
+    # Get the Google social account
+    social_account = SocialAccount.objects.get(user=request.user)
+    
+    # Get or create the token
+    token, created = Token.objects.get_or_create(user=request.user)
+    
+    # Redirect to frontend with token
+    frontend_url = f"http://localhost:3000/auth/google/callback?token={token.key}"
+    return Response({"redirect": frontend_url}, status=302, headers={'Location': frontend_url})
+
+class SignUpView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save(request=request)
+            token, created = Token.objects.get_or_create(user=user)
+            return Response(
+                {
+                    "message": "User created successfully",
+                    "token": token.key,
+                    "user": {
+                        "id": user.id,
+                        "email": user.email,
+                        "first_name": user.first_name,
+                        "last_name": user.last_name,
+                    },
+                },
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

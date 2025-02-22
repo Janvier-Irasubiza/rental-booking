@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Rental, Booking, StatusChoices
 from django.db.models import Q
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework.authtoken.models import Token
 
 class RentalSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +34,9 @@ class BookingSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This rental is already booked for the selected dates.")
 
         return data
+    
+class CustomRegisterSerializer(RegisterSerializer):
+    def save(self, request):
+        user = super().save(request)
+        Token.objects.create(user=user) 
+        return user

@@ -14,26 +14,32 @@ import Settings from "../portal/settings";
 import Sidebar from "../partials/sidebar";
 import AuthRoutes from "./auth";
 import RentalInfo from "../pages/rental-info";
+import ProtectedRoute from "../configs/protect-route";
+import GoogleCallback from "../configs/google-auth-callback";
 
 const Router = () => {
   return (
     <AppRouter>
       <Routes>
-        {/* Main Pages */}
+        {/* Public Pages */}
         <Route path="/" element={<Home />} />
         <Route path="/discover" element={<Discover />} />
         <Route path="/itm" element={<RentalInfo />} />
 
         {/* Auth routes */}
         <Route path="/auth/*" element={<AuthRoutes />} />
+        {/* Google OAuth callback */}
+        <Route path="/auth/google/callback" element={<GoogleCallback />} />
 
-        {/* Dashboard routes */}
-        <Route path="/@me" element={<DashboardLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="rentals" element={<MyRentals />} />
-          <Route path="bookings" element={<Bookings />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="settings" element={<Settings />} />
+        {/* Protected Dashboard Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/@me" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="rentals" element={<MyRentals />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Route>
       </Routes>
     </AppRouter>

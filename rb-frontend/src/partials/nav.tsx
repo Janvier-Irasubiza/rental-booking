@@ -21,11 +21,11 @@ function Nav() {
           <div className="space-x-6 flex items-center">
             <Link
               to=""
-              className="font-medium border-2 border-pink-600 hover:bg-pink-600 text-gray-500 px-4 py-1 rounded-lg transition"
+              className="font-medium border-2 border-pink-600 hover:bg-pink-600 hover:text-white text-gray-500 px-4 py-1 rounded-lg transition"
             >
               List your rental
             </Link>
-            <Link to="/auth">
+            <Link to="/auth/login">
               <ArrowRightEndOnRectangleIcon className="h-10 w-10 pry-txt p-0 m-0" />
             </Link>
             <button className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold focus:outline-none">

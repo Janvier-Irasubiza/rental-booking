@@ -1,8 +1,39 @@
+import { useState } from "react";
 import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../layouts/auth";
+import api from "../../configs/api";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await api.post("/auth/login/", {
+        email,
+        password,
+      });
+
+      const { access, refresh } = response.data;
+      localStorage.setItem("access_token", access);
+      localStorage.setItem("refresh_token", refresh);
+
+      navigate("/@me");
+    } catch (err) {
+      navigate("/auth/login");
+      setError("Invalid email or password.");
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8000/auth/social/google/";
+  };
+
   return (
     <AuthLayout>
       <div className="py-20">
@@ -17,7 +48,9 @@ function Login() {
             </div>
 
             {/* Form */}
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {error && <p className="text-red-500 text-center">{error}</p>}
+
               {/* Email Field */}
               <div className="mb-4">
                 <label
@@ -29,8 +62,8 @@ function Login() {
                 <input
                   type="email"
                   name="email"
-                  id="email"
-                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="username@mail.com"
@@ -53,8 +86,8 @@ function Login() {
                 <input
                   type="password"
                   name="password"
-                  id="password"
-                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="mt-1 p-2 block w-full border rounded-lg"
                   placeholder="Password"
@@ -64,7 +97,7 @@ function Login() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="button text-white p-2 rounded-md w-full mt-2 flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 transition"
+                className="button text-white p-2 rounded-md w-full mt-2 flex items-center justify-center gap-2 bg-pink-600 hover:bg-pink-700 transition"
               >
                 Login
                 <ArrowRightEndOnRectangleIcon className="h-5 w-5" />
@@ -81,6 +114,7 @@ function Login() {
                 </Link>
               </p>
 
+              {/* Google Login */}
               <div className="mt-8">
                 <div className="flex items-center justify-between">
                   <span className="border-b w-1/4"></span>
@@ -90,10 +124,9 @@ function Login() {
                   <span className="border-b w-1/4"></span>
                 </div>
               </div>
-
-              {/* Google Login */}
               <button
                 type="button"
+                onClick={handleGoogleLogin}
                 className="w-full mt-4 flex items-center justify-center gap-3 bg-white text-gray-700 font-medium border rounded-md py-2 px-4 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">

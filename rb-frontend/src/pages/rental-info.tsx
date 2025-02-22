@@ -128,7 +128,7 @@ function RentalInfo() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition"
+                  className="w-full py-3 rounded-lg bg-pink-600 hover:bg-pink-700 text-white transition"
                 >
                   Book Now
                 </button>

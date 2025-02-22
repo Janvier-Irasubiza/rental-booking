@@ -29,15 +29,15 @@ const DashboardHeader = () => {
 
   return (
     <div className="flex justify-between items-center relative">
-      <h1 className="text-3xl font-bold text-gray-800">Welcome, [User Name]</h1>
+      <h1 className="text-3xl font-bold text-gray-800">Welcome, Frank M</h1>
 
       {/* User Profile Icon with Dropdown Toggle */}
       <div className="relative inline-block text-left" ref={dropdownRef}>
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold focus:outline-none"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 text-white font-bold focus:outline-none"
         >
-          UI
+          FM
         </button>
 
         {/* Dropdown Menu */}

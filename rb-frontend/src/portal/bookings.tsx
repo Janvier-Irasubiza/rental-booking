@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 import DashboardLayout from "../layouts/dashboard";
 import { useState } from "react";
+import useAuth from "../configs/use-auth";
 
 // Booking type definition
 type Booking = {
@@ -18,6 +19,7 @@ type Booking = {
 };
 
 function Bookings() {
+  useAuth();
   // Sample booking data
   const [bookings] = useState<Booking[]>([
     {

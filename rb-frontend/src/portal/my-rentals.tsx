@@ -6,6 +6,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import PostRentalModal from "../partials/post-rental";
+import useAuth from "../configs/use-auth";
 
 // Sample rental data type
 type Rental = {
@@ -23,6 +24,7 @@ type Rental = {
 };
 
 function MyRentals() {
+  useAuth();
   const [rentals, setRentals] = useState<Rental[]>([
     {
       id: 1,

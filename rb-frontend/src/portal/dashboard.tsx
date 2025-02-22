@@ -5,8 +5,10 @@ import {
   CurrencyDollarIcon,
 } from "@heroicons/react/24/solid";
 import RecentBookings from "../partials/recent-bookings";
+import useAuth from "../configs/use-auth";
 
 const Dashboard = () => {
+  useAuth();
   return (
     <DashboardLayout>
       <div className="mt-12 space-y-10">

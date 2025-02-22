@@ -1,12 +1,14 @@
 import DashboardLayout from "../layouts/dashboard";
 import { useState } from "react";
 import { CameraIcon } from "@heroicons/react/24/solid";
+import useAuth from "../configs/use-auth";
 
 function Profile() {
+  useAuth();
   // State to handle form data
   const [profileData, setProfileData] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
+    name: "Frank M",
+    email: "fmaccmail.fm@gmail.com",
     phone: "+250 781 336 634",
     bio: "Passionate about travel and rentals.",
     avatar: "https://source.unsplash.com/100x100/?portrait",

@@ -8,8 +8,11 @@ import {
   LockClosedIcon,
   KeyIcon,
 } from "@heroicons/react/24/outline";
+import useAuth from "../configs/use-auth";
 
 function Settings() {
+  useAuth();
+  
   // Notification preferences state
   const [notifications, setNotifications] = useState({
     email: true,

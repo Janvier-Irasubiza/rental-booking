@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 class RoleChoices(models.TextChoices):
     SUPERUSER = 'superuser', _('Superuser')
@@ -14,6 +15,18 @@ class StatusChoices(models.TextChoices):
     CONFIRMED = 'confirmed', _('Confirmed')
     CANCELLED = 'cancelled', _('Cancelled')
     REJECTED = 'rejected', _('Rejected')
+
+class Categories(models.TextChoices):
+    REAL_ESTATE = 'real_estate', _('Real Estate')
+    VEHICLES = 'vehicles', _('Vehicles')
+    EQUIPMENT = 'equipment', _('Equipment')
+    LIFE_STYLE = 'life_style', _('Life & Style')
+
+def get_default_category():
+    try:
+        return Category.objects.get(name=Categories.REAL_ESTATE).id
+    except ObjectDoesNotExist:
+        return None
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -93,7 +106,12 @@ class User(AbstractUser):
     )
 
 class Category(models.Model):
-    name = models.CharField(_('name'), max_length=100, db_index=True)
+    name = models.CharField(
+        _('name'), max_length=100, 
+        db_index=True, 
+        choices=Categories.choices, 
+        default=Categories.REAL_ESTATE
+    )
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
@@ -109,7 +127,8 @@ class Rental(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
-        related_name='rentals'
+        related_name='rentals',
+        default=get_default_category
     )
     price = models.DecimalField(
         _('price per night'),
